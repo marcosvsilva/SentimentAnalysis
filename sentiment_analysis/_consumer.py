@@ -1,6 +1,7 @@
+from tweepy import OAuthHandler
+from tweepy import Stream
+from _out_stream import OutStreamListener
 import json
-import oauth2 as oauth
-import urllib.parse
 
 
 class Consumer:
@@ -21,19 +22,16 @@ class Consumer:
         self.__access_key = key["access_key"]
         self.__access_secret = key["access_token"]
 
-    def __connection(self):
-        consumer = oauth.Consumer(self.__key, self.__secret)
-        token = oauth.Token(self.__access_key, self.__access_secret)
-        return oauth.Client(consumer, token)
+    def __get_connection(self):
+        out_stream = OutStreamListener()
+        auth = OAuthHandler(self.__key, self.__secret)
+        auth.set_access_token(self.__access_key, self.__access_secret)
 
-    def consumer(self, hashtag):
-        connection = self.__connection()
-        url_request = "https://api.twitter.com/1.1/search/tweets.json?q=%s" % urllib.parse.quote(hashtag, safe='')
+        return Stream(auth, out_stream)
 
+    def consumer(self, hashtags):
         try:
-            request = connection.request(url_request)
-            response = json.loads(request[1].decode())['statuses']
+            stream = self.__get_connection()
+            stream.filter(track=hashtags)
         except Exception as e:
             raise Exception(e)
-
-        return response
