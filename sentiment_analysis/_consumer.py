@@ -22,19 +22,20 @@ class Consumer:
         self.__access_key = key["access_key"]
         self.__access_secret = key["access_token"]
 
-    def __get_connection(self):
-        out_stream = OutStreamListener()
+    def __get_connection(self, quantity_tweets):
+        out_stream = OutStreamListener(quantity_tweets)
         auth = OAuthHandler(self.__key, self.__secret)
         auth.set_access_token(self.__access_key, self.__access_secret)
 
         return Stream(auth, out_stream)
 
-    def consumer(self, hashtags):
+    def consumer(self, hashtags, quantity_tweets):
         try:
-            stream = self.__get_connection()
+            stream = self.__get_connection(quantity_tweets)
             stream.filter(track=hashtags)
-        except KeyboardInterrupt as e:
-            stream.disconnect()
         except Exception as e:
-            stream.disconnect()
-            raise Exception(e)
+            print("Error: %s" % e)
+        except KeyboardInterrupt:
+            pass
+
+        stream.disconnect()
