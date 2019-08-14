@@ -33,5 +33,8 @@ class Consumer:
         try:
             stream = self.__get_connection()
             stream.filter(track=hashtags)
+        except KeyboardInterrupt as e:
+            stream.disconnect()
         except Exception as e:
+            stream.disconnect()
             raise Exception(e)
