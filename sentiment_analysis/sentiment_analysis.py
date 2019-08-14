@@ -22,5 +22,5 @@ class Main:
 
 if __name__ == '__main__':
     main = Main()
-    #main.consumer_twitter()
-    main.list_saved_data()
+    main.consumer_twitter()
+    #main.list_saved_data()
