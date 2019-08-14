@@ -30,5 +30,4 @@ class OutStreamListener(StreamListener):
                 "user_screen_name": tweet["user"]["screen_name"],
                 "user_screen_description": tweet["user"]["description"],
                 "text": tweet["text"],
-                "source": tweet["source"]
-                }
+                "source": tweet["source"]}
