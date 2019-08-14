@@ -20,12 +20,15 @@ class Persistence:
         db = con.get_database(self.__database)
         return db.twitter
 
-    def inset(self, twitter):
-        for twit in twitter:
-            self.__connection.insert_one(twit)
+    def inset(self, tweets):
+        for tweet in tweets:
+            self.__connection.insert_one(tweet)
+
+    def inset_one(self, tweet):
+        self.__connection.insert_one(tweet)
 
     def find_all(self):
-        self.__connection.findall()
+        return self.__connection.find()
 
     def find(self, value):
-        self.__connection.find(value)
+        return self.__connection.find(value)
