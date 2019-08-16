@@ -26,7 +26,7 @@ class Main:
 if __name__ == '__main__':
     main = Main()
 
-    hashtags = ["bolsonaro"]
-    quantity_of_tweets = 50
+    hashtags = ["bolsonaro", "eleições"]
+    quantity_of_tweets = 10
 
     main.analyst_tweets(hashtags, quantity_of_tweets)
